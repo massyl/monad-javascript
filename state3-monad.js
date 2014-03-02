@@ -122,44 +122,25 @@ var computation2 = bind(push(3), function(Nothing1){
 
 /*
  * Some Monads computation sequencing
- * push(2) >> push(3) >> push(4)
+ * push(5) >> push(6) >> push(7) >> push(8) >> push(9)
  */
-var tt = bind_(push(2), bind_(push(3), push(4)));
 
-var computation3 = bind_(push(5),
-                         bind_(push(6),
-                               bind(pop(),
-                                    function(value1){
-                                        return bind(pop(), function(value2){
-                                            return inject(value2 + " : "+ value1);
-                                        });
-                                    }
-                                   )
-                              )
-                        );
-
-
-var comp4 = bind_(push(5), bind_(push(6), bind_(push(7), bind_(push(8), push(9)))));
-
-
-
+var comp3 = bind_(push(5), bind_(push(6), bind_(push(7), bind_(push(8), push(9)))));
 
 /*
- * Initial immutable state
+ * Composite computation, that combines two composite computations.
+ * Note that we use the same way to compose even more complex computations.
  */
-var initialStack = [];
+
 var compositeComputation = bind(computation1, function(value1){
     return bind(computation2, function(value2){
         return inject(value1.concat(" : ").concat(value2));
     });
 });
-var compositeComputation2 = bind_(compositeComputation, computation3);
-var compositeResult = evalState(compositeComputation, initialStack);
 
-/*
- * Executes 2 complex computations and return the output of the last one.
- */
-var compositeResult2 = runState(compositeComputation2, initialStack);
+var state = [];
+var compositeResult = runState(compositeComputation, state);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -208,7 +189,8 @@ var evaluate = function(expression){
  * If the `op` parameter represent a binary operation, it pops 2 values from the State and then push the result
  * of applying this operation to the popped values, otherwise if it is a simple value(operand), it just pushes it.
  */
-var ops = ['+', '*', '-'];
+
+var ops = ['+', '*', '-', '/'];
 var reverseCalculator = function(op){
     return function(){
         if(ops.indexOf(op) !== -1){
@@ -233,7 +215,7 @@ var operand1 = reverseCalculator(4);
 var operand2 = reverseCalculator(9);
 
 var compute = bind_(bind_(operand1(), operand2()), op());
-var calculationResult = runState(compute(), initialState);
+var calculationResult = runState(compute, initialState);
 
 /*
  * Test of the Reverse Polish calculator
