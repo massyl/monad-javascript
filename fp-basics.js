@@ -149,6 +149,22 @@ var comp = function(f, g){
 };
 
 /*
+ * repeats `n` times the give value.
+ * repeat (3)(19) = 19, 19, 19
+ */
+var replicate = function(n){
+    return function(value){
+        var loop = function(upper){
+            return function(acc){
+                if(upper == 0) return acc;
+                else return loop (upper - 1)(acc.concat(value)) ;
+            };
+        };
+        return loop (n)([]);
+    };
+};
+
+/*
  * repeat takes a value and returns a list of the same value with
  * list.length = value.
  * repeat 3 = [3,3,3]
