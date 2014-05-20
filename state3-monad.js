@@ -263,7 +263,6 @@ var sequence = function(computations){
                  });
              });
          }else {
-
              return push(op);
          };
      };
@@ -288,3 +287,4 @@ var sequence = function(computations){
  var calculation = evaluate("1 2 + 3 5 * + 10 -");
  var result = runState(calculation, initialState);
  var resultValue = execState(calculation, initialState);
+n
