@@ -94,7 +94,7 @@ var pop = function (){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
  * Using bind operation to chain computations.
- * Manually threading state (stack) during succession of computations
+ * Note the implecit threading of state (stack) during succession of computations
  *
  */
 var computation1 = bind(push(1), function(Nothing1){
@@ -287,4 +287,4 @@ var sequence = function(computations){
  var calculation = evaluate("1 2 + 3 5 * + 10 -");
  var result = runState(calculation, initialState);
  var resultValue = execState(calculation, initialState);
-n
+

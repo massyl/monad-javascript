@@ -6,7 +6,7 @@
  */
 
 Nothing = {Nothing : 'Nothing'};
-var Just = function(a){ return {Just : a}; };
+Just = function(a){ return {Just : a}; };
 
 var Maybe = function(a) {
     if (a === undefined) return Nothing;
