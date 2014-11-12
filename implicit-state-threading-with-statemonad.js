@@ -11,7 +11,7 @@
  * The Corresponding Haskell bind funtion (>>=)
  * It takes a monadic value `ma` unwraps it and then passes
  * the resulting value to the continuation function `mf`
- * Here m a <=> function(stack){ {value:value, stack:stack}} (a = {value:value, stack:stack})
+ * Here m a <=> function(stack){ return function(){value:value, stack:stack}} 
  */
 var bind = function(ma, mf){
     return function(stack){
@@ -22,6 +22,14 @@ var bind = function(ma, mf){
 
 /*
  * The unit element of a Monad. It is the equivalent of Haskell return function
+ * It takes a value, and returns a function that takes the initial state and returns 
+ * a function that holds a result and new state.
+ * stack -> (a, stack')
+ * Note that the (a, stack') is returned as a function for simulating laziness
+ * The part of this function that encodes the state monad is : 
+ * function(stack) { 
+ *      return function() { return {value:value, stack:stack};
+ * };
  */
 var inject = function(value){
     return function(stack){
@@ -35,7 +43,7 @@ var inject = function(value){
  */
 var bind_ = function(ma, mb){
     return bind(ma, function(){ return mb;});
-};
+};x
 
 /*
  * Some Monad State handy functions

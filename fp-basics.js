@@ -40,7 +40,7 @@ var uncurriedFoldL = function(f, acc, list){
     }
 };
 
-var r = uncurriedFoldL([1,2,3], function(a,b){ return a+b;}, 0);
+var sum = uncurriedFoldL(function(a,b){ return a+b;}, 0, [1,2,3]);
 
 var uncurriedFoldR = function(f, acc, list){
     if(list.length === 0) return acc;
@@ -52,8 +52,8 @@ var uncurriedFoldR = function(f, acc, list){
 
 
 var concatinate = function(list1, list2){return list1.concat(list2);};
-var test1 = uncurriedFoldR(concatinate, [4,5],[[1],[2],[3]]);
-var test2 = uncurriedFoldL(concatinate,[4,5],[[1],[2],[3]]);
+var rs1 = uncurriedFoldR(concatinate, [],[[1],[2],[3]]);
+var rs2 = uncurriedFoldL(concatinate,[],[[1],[2],[3]]);
 
 /*
  * Curried implementation of foldl
