@@ -43,7 +43,7 @@ var inject = function(value){
  */
 var bind_ = function(ma, mb){
     return bind(ma, function(){ return mb;});
-};x
+};
 
 /*
  * Some Monad State handy functions
