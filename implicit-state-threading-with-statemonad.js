@@ -73,6 +73,40 @@ var execState = function(stateComputation, initialState){
     return result.stack;
 };
 
+/**
+ * Checks that inject is a left unit
+ * checks that : inject a >>= f = f a
+ */ 
+var continuation = function(v){return function(stack){ var r = v + 1; return {value:r,  stack:stack};};};
+var ma = bind(inject(1), continuation);
+var leftUnit =equals(ma([]), continuation(1)([]));
+/**
+ * Checks that inject is a right unit
+ * checks that : ma >>= inject = ma
+ */ 
+var ma2 = function(stack){ return function(v){var r = v + 1; return {value:r,  stack:stack};};};
+var continuation2 = inject;
+var rightUnit = equals(ma2([])(1), continuation2(2)([])());
+
+/**
+ * Checks that bind is associative
+ * checks that : (f >>= g)>>= h == f >>= (\x -> g x >>= h)
+ */                 
+
+
+/*
+ * Handy equals function. Is used for our defined objects
+ */
+var equals = function(obj, other){
+    if(other === undefined) return obj === undefined;
+    else if (obj.hasOwnProperty('value')){
+        return obj.value  === other.value ;
+    }else if(obj.hasOwnProperty('stack')){
+        return (obj.stack === other.stack);
+    }else return obj === other;
+};
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
  * Stack implementation based on Monads.
