@@ -1,0 +1,2 @@
+pandoc -t slidy -s monad-training-current.md -o moand-training.html
+pandoc -t beamer monad-training-current.md -s --highlight-style zenburn -o monad-training.pdf

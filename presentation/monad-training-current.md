@@ -34,6 +34,23 @@
 
 # Functional programming basics
 
+# Types are not Classes
+
+- Set of related values
+- Algebra of Types (Sum, Product)
+
+# Function
+
+- Mapping from `Type` to another `Type`
+  f :: A -> B
+   A : Is a Domain of `f`
+   B : Is a CoDomain of `f`
+- Give some example of functions
+
+
+# Function Composition
+
+
 # Currying
 
 - Functions with multiple arguments are defined in Haskell using the notion of currying.
@@ -56,19 +73,39 @@ var succ = function(){ return add2(1);};
 
 - Formally speaking, a function that takes a function as an argument or
   returns a function as a result is called higher-order
+
 - Examples
 
 ```haskell
 map       -- maps a function on list elements
-foldl     -- reduces to single value from the left
-foldr     -- reduces to single value from the right
-fmap      -- map that works on any Functor
 filter    -- filters elements whith a predicate
 takeWhile -- stops when the predicate returns false
 dropWhile -- stops when the predicate returns false
 ```
+# OO Paterns/Principals and corresponding FP
+- SOLID
+- Strategy
+- command
+-
+...
+
+# FP Pattern
+## Fold and Universal Property
+..
+
+# DDD and FP
+- Ubiquitous language
+- Specification
+- Bounded Context
+- Value Object
+...
+
+# TDD as Type driven development
+
+# Parametricity and Theoreme for Free
 
 # Advanced FP (Functor, Monad, Applicative ...)
+
 
 ## Introduction
 
@@ -176,8 +213,9 @@ var concatMap = function(fn){
 };
 ```
 
-# Exercises
-- Maybe monad
-- List Monad
-- State Monad
-- Reverse Polish Calculator using State Monad
+# Conclusion
+## Why learning FP mainly Haskell is worth your time?
+1. Get new toolset for solving complex problems with very clean and elegant solutions
+2. Learn new way of thinking about programs.
+3. Learn new ways factorizing common patterns (Functor, Monad ...)
+4. Learn to reason about your program and rely havely on types and compiler to express invarients
