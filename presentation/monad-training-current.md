@@ -1,7 +1,7 @@
-% Monads in JavaScript
-% Massyl Nait Mouloud, Architect/Senior Developer/Team Leader @ Sfeir
-% 3 Mars 2014
-% @nmassyl
+% Why Funcitonal Programming Matters
+% Massyl Nait Mouloud, Architect/Senior Developer/Team Leader @ Sfeir ( @nmassyl)
+% 30 Jun 2015
+
 
 
 # Functional programming history
@@ -35,52 +35,46 @@
 # Functional programming basics (Static FP)
 
  The following are the basic building blocks, every FP relies on.
- In the heart of every FP language there is :
+ In the heart of every FP language there is
 
-## Function
+# Function
 
 - Mapping from `Type` to another `Type`
 
 ```Haskell
-
    show :: a -> String
    f :: A -> B
    map :: (a-> b) -> [a] -> [b]
 ```
-
 - Standalone thing
 - Functions are values
 
 ```Haskell
-
  x = 1
  add x y = x + y
  succ = add 1
  (succ 2) + 10
 ```
 
--
-## Function Composition
-
+# Function Composition
  - Like UNIX pipe (|) or puzzle pieces
  - When domain of one function coincides with Codomain of the other
 
 ```java
 
-  lock :: Function<TransactionManager,  TransactionManager>
-  read :: Function<TransactionManager, Optional<Counter>>
-  lockThenRead :: compose(read, lock);
+lock :: Fun<TransactionManager, TransactionManager>
+read :: Fun<TransactionManager, Optional<Counter>>
+lockThenRead :: compose(read, lock);
 ```
-
 - Allows to build coarse grained operations from thin ones with a disciplined way
 - Divide and Conqueror
 
-## Types
+# Types
 
 - Set of related values
 - Algebra of Types (Sum, Product, Monoid ...)
 
-## Currying
+# Currying
 
 - Functions with multiple arguments are defined in Haskell using the notion of currying.
   That is, the arguments are taken one at a time by exploiting the fact that functions can return
@@ -99,12 +93,11 @@ var succ = function(){ return add2(1);};
 ```
 ```java
 
-  curry :: Function2<A, B, C> -> Function<A, Function<B, C>>
-  add   :: Function2<Integer, Integer, Integer>
-  add' = curry add :: Function<Integer, Function<Integer, Integer>>
-
+curry::Fun2<A, B, C> -> Function<A, Function<B, C>>
+add::Fun2<Integer, Integer, Integer>
+add'=curry add::Fun<Integer, Fun<Integer, Integer>>
 ```
-## Higher order functions
+# Higher order functions
 
 - Formally speaking, a function that takes a function as an argument or
   returns a function as a result is called higher-order
@@ -112,61 +105,72 @@ var succ = function(){ return add2(1);};
 - Examples
 
 ```haskell
- map       -- maps a function on list elements
+
+map       -- maps a function on list elements
 filter    -- filters elements whith a predicate
 takeWhile -- stops when the predicate returns false
 dropWhile -- stops when the predicate returns false
 ```
 # Fold and Universal Property
-
 - Standard operator that encapsulates a simple pattern of recursion for processing lists
+
 ```haskell
 
- foldr :: (a -> b -> b) -> b -> [a] -> [b]
- foldr f acc [] = acc
- foldr f acc (x:xs) = f x (fold f acc xs)
+fold :: (a -> b -> b) -> b -> [a] -> [b]
+fold f acc [] = acc
+fold f acc (x:xs) = f x (fold f acc xs)
 
 sum :: [Int] -> Int
-sum = foldr (+) 0
+sum = fold (+) 0
 
 product :: [Int] -> Int
-product = foldr (*) 1
+product = fold (*) 1
 
 and :: [Bool] -> Bool
-and = foldr (&&) True
+and = fold (&&) True
 ```
 
-## Universal Property of fold
+# Universal Property of fold
+
+```haskell
 
 g [] = v                          <=> g = fold f v
 g (x:xs) = f x (g xs)
+```
 
-## example of proof using this universal property
+# Example of proof using this universal property
 
 ```haskell
- (+1) . sum = fold (+) 1
+
+(+1) . sum = fold (+) 1
 ```
 1) g = (+ 1) . sum , f= (+) , v = 1
 2) relace if the definition
-   ((+1) . sum) [] = 1
-   ((+1) . sum) (x:xs) = (+) x ((+1) . sum) xs)
 
+```haskell
+
+((+1) . sum) [] = 1
+((+1) . sum) (x:xs) = (+) x ((+1) . sum) xs)
+```
 3) Simplifying using composition and sectioning
+
+```haskell
+
  sum [] + 1 = 1
  sum (x:xs) + 1 = x + (sum xs + 1)
+```
 
 4) use induction for both cases ( sum (x:xs) = x + sum xs)
 
 # Object oriented Pattern/Principle
+- Open/Closed
+- Single Responsibility
+- Dependency Inversion
+- Interface Segregation
+- Factory
+- Strategy
+- and so on ...
 
-1 - Open/Closed
-2 - Single Responsibility
-3 - Dependency Inversion
-4 - Interface Segregation
-5 - Factory
-6 - Strategy
-7 - and so on ...
-...
 
 # Functional counterpart
 
@@ -188,7 +192,7 @@ g (x:xs) = f x (g xs)
  Wikipedia (http://en.wikipedia.org/wiki/Domain_model)
 
 
-## Object oriented : Rich domain models
+# Object oriented : Rich domain models
 
 - Domain abstraction through a Class
 - Class contains both state and behavior (private field)
@@ -197,7 +201,7 @@ g (x:xs) = f x (g xs)
 - We focus on nouns first then design the state of entities with classes
 - Add related behavior to the class and put larger one into Service class
 
-## Functional approach : Lean (Anemic) domain models
+# Functional approach : Lean (Anemic) domain models
 
 - Domain abstraction through Algebraic Data Type (ADT)
 - Contains state (every thing is immutable) , no need for private
@@ -207,7 +211,7 @@ g (x:xs) = f x (g xs)
 - Then focus on how those functions compose to compose larger functions
 - Then use ADT to build entities defined in function signatures
 
-## Domain model Elements in OO/FP
+# Domain model Elements in OO/FP
 
  - Entities & VO       -----> ADT
  - Behaviors           -----> Functions
@@ -217,14 +221,14 @@ g (x:xs) = f x (g xs)
  - (implicit concepts explicit, intention revealing interfaces,
   Side effect free functions, Declarative design, Specification for validation)
 
-## Why we Functional approach
+# Why we Functional approach
 
 - Ability to reason about your code (parametricity, purity and referential transparency)
 - Modularity and reusability (Behavior is separated from state)
 - Immutability
 - Concurrency and Parallelism
 
-## Example
+# Example
 - TradeLot, Bid, Payment, Seller, Purchaser, Account
 - findLots from seller
 - makeBid for each lot
@@ -247,11 +251,9 @@ payBid :: [Account] -> Bid -> [Payment]
 
 
 
-
 # Advanced FP (Functor, Monad, Applicative ...)
 
-
-## Introduction
+# Introduction
 
 - The functional programming community divides into two camps. Pure languages such as Haskell,
   and impure languages such as ML, Scheme. Pure languages are easier to reason about and may benefit from lazy evaluation.
@@ -356,6 +358,7 @@ var concatMap = function(fn){
   };
 };
 ```
+# Functor
 
 # Conclusion
 ## Why learning FP mainly Haskell is worth your time?
