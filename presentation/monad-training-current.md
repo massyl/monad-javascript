@@ -116,7 +116,7 @@ dropWhile -- stops when the predicate returns false
 
 ```haskell
 
-fold :: (a -> b -> b) -> b -> [a] -> [b]
+fold :: (a -> b -> b) -> b -> [a] -> b
 fold f acc [] = acc
 fold f acc (x:xs) = f x (fold f acc xs)
 
